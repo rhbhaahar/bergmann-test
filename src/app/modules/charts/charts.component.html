@@ -1,0 +1,100 @@
+<mat-toolbar color="primary">
+    <span>Charts</span>
+
+</mat-toolbar>
+
+<mat-toolbar color="primary" class="datepicker-toolbar">
+    <mat-form-field>
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [formGroup]="range" [max]="maxDate">
+            <input matStartDate formControlName="start_date" placeholder="Start date">
+            <input matEndDate formControlName="end_date" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <button mat-flat-button (click)="applyDates()">OK</button>
+</mat-toolbar>
+
+<div class="add-sensor-wrapper">
+    <div class="form">
+        <mat-form-field>
+            <mat-label>Sensor type</mat-label>
+            <mat-select [(ngModel)]="newChartData.sensorType">
+                <mat-option *ngFor="let sensorType of sensorTypes" [value]="sensorType">
+                    {{sensorType.displayValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Chart type</mat-label>
+            <mat-select [(ngModel)]="newChartData.chartType">
+                <mat-option *ngFor="let chartType of chartTypes" [value]="chartType">
+                    {{chartType.displayValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Chart color</mat-label>
+            <mat-select [(ngModel)]="newChartData.chartColor">
+                <mat-option *ngFor="let chartColor of chartColors" [value]="chartColor" [ngStyle]="{background: chartColor.value}">
+                    {{chartColor.displayValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Chart name</mat-label>
+            <input matInput [(ngModel)]="newChartData.chartName">
+        </mat-form-field>
+    </div>
+    <button mat-flat-button color="primary" (click)="addNewChart()">Add new chart</button>
+</div>
+
+<div class="cards">
+    <mat-card *ngFor="let userChart of allCharts; let index = index">
+        <mat-card-header>
+            <div class="actions">
+                <button mat-icon-button (click)="$event.stopPropagation(); deleteChart(index)"><mat-icon>close</mat-icon></button>
+            </div>
+        </mat-card-header>
+
+        <div class="">
+            <div class="add-sensor-wrapper">
+                <div class="form">
+                    <mat-form-field>
+                        <mat-label>Sensor type</mat-label>
+                        <mat-select [(ngModel)]="userChart.newSensorData.sensorType">
+                            <mat-option *ngFor="let sensorType of sensorTypes" [value]="sensorType">
+                                {{sensorType.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Chart type</mat-label>
+                        <mat-select [(ngModel)]="userChart.newSensorData.chartType">
+                            <mat-option *ngFor="let chartType of chartTypes" [value]="chartType">
+                                {{chartType.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Chart color</mat-label>
+                        <mat-select [(ngModel)]="userChart.newSensorData.chartColor">
+                            <mat-option *ngFor="let chartColor of chartColors" [value]="chartColor" [ngStyle]="{background: chartColor.value}">
+                                {{chartColor.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button mat-flat-button color="primary" (click)="addNewSensor(userChart)">Add new sensor</button>
+            </div>
+        </div>
+        
+        <div [chart]="userChart.chart"></div>
+    </mat-card>
+</div>

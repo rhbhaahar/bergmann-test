@@ -1,0 +1,35 @@
+.add-sensor-wrapper {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    grid-gap: 8px;
+    padding: 8px;
+    width: 100%;
+}
+
+.cards {
+    padding: 24px;
+
+    .mat-card {
+        padding: 8px;
+    }
+}
+
+.datepicker-toolbar {
+    .mdc-button {
+        margin-left: 12px;
+    }
+}
