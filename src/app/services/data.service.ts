@@ -17,9 +17,6 @@ export class DataService {
       daily: sensorType
     }
 
-    // start_date=2023-11-22&end_date=2023-12-04
-
-    console.log(params)
     return this.http.get('https://archive-api.open-meteo.com/v1/archive', { params: { ...defaultParams, ...params } })
   }
 }
