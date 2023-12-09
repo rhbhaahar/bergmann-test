@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ChartsComponent', () => {
   let component: ChartsComponent;
@@ -23,7 +25,7 @@ describe('ChartsComponent', () => {
       imports: [
         HttpClientModule, MatSnackBarModule, MatToolbarModule, MatFormFieldModule,
         MatDatepickerModule, MatNativeDateModule, MatSelectModule, ReactiveFormsModule, FormsModule,
-        MatInputModule, BrowserAnimationsModule],
+        MatInputModule, BrowserAnimationsModule, MatIconModule, RouterTestingModule],
       providers: [DatePipe]
     });
     fixture = TestBed.createComponent(ChartsComponent);

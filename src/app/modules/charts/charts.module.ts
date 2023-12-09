@@ -20,10 +20,9 @@ const routes: Route[] = [
   {path: '', component: ChartsComponent}
 ]
 
-
 @NgModule({
   declarations: [
-    ChartsComponent
+    ChartsComponent,
   ],
   imports: [
     MatToolbarModule,

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Chart } from 'angular-highcharts';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface NewSensorData {
   sensorType: {
@@ -49,6 +50,7 @@ const sensorToDailyDTO: { [key: string]: string; } = {
   styleUrls: ['./charts.component.scss'],
 })
 export class ChartsComponent implements OnInit {
+  private destroyRef = inject(DestroyRef)
   responseArray: any;
   maxDate = new Date();
   editSensor: boolean = false;
@@ -123,19 +125,21 @@ export class ChartsComponent implements OnInit {
       const start_date = this.datepipe.transform(this.range.value.start_date, 'YYYY-MM-dd');
       const end_date = this.datepipe.transform(this.range.value.end_date, 'YYYY-MM-dd');
 
-      this.dataService.getWeather({start_date: start_date!, end_date: end_date!}, dataType).subscribe(res => {
-        this.responseArray = res.daily[dataType].map((item: any, i: number) => {
-          return {
-            label: this.datepipe.transform(res.daily.time[i], 'dd MMM'),
-            value: item,
-          }
-        });
+      this.dataService.getWeather({start_date: start_date!, end_date: end_date!}, dataType)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(res => {
+          this.responseArray = res.daily[dataType].map((item: any, i: number) => {
+            return {
+              label: this.datepipe.transform(res.daily.time[i], 'dd MMM'),
+              value: item,
+            }
+          });
 
-          userChart.chart.addSeries({
-            type: sensor.chartType,
-            data: res.daily[dataType],
-            color: sensor.chartColor,
-            name: sensor.sensorType}, true, true)
+            userChart.chart.addSeries({
+              type: sensor.chartType,
+              data: res.daily[dataType],
+              color: sensor.chartColor,
+              name: sensor.sensorType}, true, true);
       });
       
     });
@@ -244,19 +248,21 @@ export class ChartsComponent implements OnInit {
       chartColor: userChart.newSensorData.chartColor?.value || '',
     });
 
-    this.dataService.getWeather({start_date: start_date!, end_date: end_date!}, dataType).subscribe(res => {
-      this.responseArray = res.daily[dataType].map((item: any, i: number) => {
-        return {
-          label: this.datepipe.transform(res.daily.time[i], 'dd MMM'),
-          value: item,
-        }
-      });
+    this.dataService.getWeather({start_date: start_date!, end_date: end_date!}, dataType)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => {
+        this.responseArray = res.daily[dataType].map((item: any, i: number) => {
+          return {
+            label: this.datepipe.transform(res.daily.time[i], 'dd MMM'),
+            value: item,
+          }
+        });
 
-      userChart.chart.addSeries({
-        type: userChart.newSensorData.chartType?.value!,
-        data: res.daily[dataType],
-        color: userChart.newSensorData.chartColor?.value,
-        name: userChart.newSensorData.sensorType?.value}, true, true)
-    });
+        userChart.chart.addSeries({
+          type: userChart.newSensorData.chartType?.value!,
+          data: res.daily[dataType],
+          color: userChart.newSensorData.chartColor?.value,
+          name: userChart.newSensorData.sensorType?.value}, true, true)
+      });
   }
 }

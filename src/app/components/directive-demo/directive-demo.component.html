@@ -1,0 +1,17 @@
+
+<mat-toolbar color="primary">
+    <span>Mat-button Directive</span>
+
+    <button mat-button [routerLink]="'/'">To charts <mat-icon>arrow_right_alt</mat-icon></button>
+</mat-toolbar>
+
+<mat-card>
+    <mat-slide-toggle color="accent" [(ngModel)]="userHasAccess">{{userHasAccess ? 'Has access' : 'No access'}}</mat-slide-toggle>
+
+    <mat-form-field>
+        <mat-label>Tooltip text</mat-label>
+        <input matInput [(ngModel)]="tooltipMessage"/>
+    </mat-form-field>
+    <button mat-flat-button color="accent" checkAccess [isViewerDisabled]="!userHasAccess" [viewerTooltip]="tooltipMessage">OK</button>
+</mat-card>
+

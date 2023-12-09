@@ -1,0 +1,19 @@
+.mat-mdc-card {
+    max-width: 600px;
+    margin: 48px auto;
+    padding: 24px;
+
+    .mat-mdc-slide-toggle {
+        margin-bottom: 24px;
+    }
+    
+    .mdc-button {
+        margin-top: 32px;
+    }
+}
+
+.mat-toolbar {
+    justify-content: space-between;
+    align-items: center;
+}
+
